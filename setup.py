@@ -23,6 +23,9 @@ setuptools.setup(
         "py-builder-signing-sdk>=0.0.2",
         "httpx[http2]>=0.27.0",
     ],
+    extras_require={
+        "mcp": ["mcp>=1.26.0"],
+    },
     project_urls={
         "Bug Tracker": "https://github.com/Polymarket/py-clob-client/issues",
     },

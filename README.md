@@ -266,6 +266,60 @@ See [this Python example](https://gist.github.com/poly-rodr/44313920481de58d5a3f
 
 **Pro tip**: You only need to set these once per wallet. After that, you can trade freely.
 
+## MCP Skill
+
+`mcp_server.py` packages this client as an **MCP (Model Context Protocol) skill** so that AI agents (e.g. Claude) can interact with the Polymarket CLOB directly.
+
+### Installation
+
+```bash
+pip install "py-clob-client[mcp]"
+```
+
+### Configuration
+
+Create a `.env` file (or export the variables) before starting the server:
+
+```dotenv
+CLOB_API_URL=https://clob.polymarket.com   # default
+CHAIN_ID=137                               # Polygon (default)
+PK=<your-private-key>                      # required for L1/L2 tools
+CLOB_API_KEY=<api-key>                     # required for L2 tools
+CLOB_SECRET=<api-secret>                   # required for L2 tools
+CLOB_PASS_PHRASE=<api-passphrase>          # required for L2 tools
+```
+
+### Starting the server
+
+```bash
+python mcp_server.py
+```
+
+The server communicates over **stdio** by default, which is the standard transport for MCP clients such as Claude Desktop.
+
+### Available tools
+
+| Tool | Auth level | Description |
+|------|-----------|-------------|
+| `get_ok` | L0 | Health-check the API |
+| `get_server_time` | L0 | Current server timestamp |
+| `get_markets` | L0 | Paginated list of markets |
+| `get_simplified_markets` | L0 | Paginated simplified market list |
+| `get_market` | L0 | Single market by condition ID |
+| `get_order_book` | L0 | Bids and asks for a token |
+| `get_midpoint` | L0 | Mid-market price for a token |
+| `get_price` | L0 | Best price on a given side |
+| `get_spread` | L0 | Bid-ask spread for a token |
+| `get_tick_size` | L0 | Minimum tick size for a token |
+| `get_last_trade_price` | L0 | Price of the last trade |
+| `get_market_trades_events` | L0 | Live trade events for a market |
+| `get_orders` | L2 | Open orders for the user |
+| `get_order` | L2 | Details for a specific order |
+| `get_trades` | L2 | Trade history for the user |
+| `cancel_order` | L2 | Cancel a specific order |
+| `cancel_all_orders` | L2 | Cancel all open orders |
+| `create_and_post_order` | L2 | Create and submit a limit order |
+
 ## Notes
 - To discover token IDs, use the Markets API Explorer: [Get Markets](https://docs.polymarket.com/developers/gamma-markets-api/get-markets).
 - Prices are in dollars from 0.00 to 1.00. Shares are whole or fractional units of the outcome token.
